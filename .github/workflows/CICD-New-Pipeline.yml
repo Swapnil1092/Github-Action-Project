@@ -36,6 +36,11 @@ jobs:
             sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
           sudo apt-get update
           sudo apt-get install -y trivy
+      - name: Build
+        run: mvn clean install -DskipTests
+
+      - name: Trivy FS Scan
+        run: trivy fs --format json -o fs-report.json .
 
       - name: Trivy FS Scan
         run: trivy fs --format json -o fs-report.json .
