@@ -73,12 +73,6 @@ jobs:
 
       - name: Unit Test Cases
         run: mvn test
-        
-      - name: Upload JAR artifact
-        uses: actions/upload-artifact@v4
-        with:
-         name: app-jar
-         path: target/*.jar
 
   build_project_and_sonar_scan:
     runs-on: self-hosted
@@ -99,6 +93,12 @@ jobs:
 
       - name: Build Project
         run: mvn package
+        
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+         name: app-jar
+         path: target/*.jar
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v7
@@ -115,7 +115,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
-  build_docker_image_and_pull:
+  build_docker_image_and_push:
     runs-on: self-hosted
     needs: build_project_and_sonar_scan
 
